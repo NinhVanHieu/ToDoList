@@ -8,11 +8,12 @@ import { listData } from "./selectors/Selectors";
 import { removeData } from "./selectors/Selectors";
 
 function App() {
+  const dataInfo = JSON.parse(localStorage.getItem("infoData"));
   const today = new Date().toISOString().slice(0, 10);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const data = useSelector(listData);
-  const data1 = data.sort(function (a, b) {
+  const data2 = data.sort(function (a, b) {
     return new Date(a.user.due) - new Date(b.user.due);
   });
   const remove = useSelector(removeData);
@@ -22,6 +23,7 @@ function App() {
     due: today,
     prio: "Normal",
   });
+  const [info, setInfo] = useState(dataInfo ?? []);
   const [search, setSearch] = useState();
   const handleAdd = () => {
     user.name &&
@@ -31,6 +33,11 @@ function App() {
           user,
         })
       );
+    user.name && setInfo((prev) => {
+      const newInfo = [...prev, { id: uuidv4(), user }];
+      localStorage.setItem("infoData", JSON.stringify(newInfo));
+      return newInfo;
+    });
     setShow(user.name === "" ? true : false);
     setUser({
       name: "",
@@ -118,7 +125,11 @@ function App() {
                 </div>
               </div>
               <button
-                style={{ marginLeft: "12px", marginRight: "12px", marginBottom:'15px' }}
+                style={{
+                  marginLeft: "12px",
+                  marginRight: "12px",
+                  marginBottom: "15px",
+                }}
                 type="submit"
                 className="btn btn-success btn-block"
                 onClick={handleAdd}
@@ -143,7 +154,7 @@ function App() {
                 onChange={handleSearch}
               />
             </div>
-            {data1?.map((item) => {
+            {data2?.map((item) => {
               return (
                 <div key={item.id}>
                   <Show item={item} />

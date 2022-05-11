@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch} from "react-redux";
 import { deleteList } from "./actions/Action";
 import { editList } from "./actions/Action";
 import { checkList } from "./actions/Action";
@@ -119,7 +119,11 @@ function Show(props) {
             </div>
             <button
               type="submit"
-              style={{ marginLeft: "12px", marginRight: "12px", marginBottom:'20px' }}
+              style={{
+                marginLeft: "12px",
+                marginRight: "12px",
+                marginBottom: "20px",
+              }}
               className="btn btn-success btn-block"
               onClick={handleUpdate}
             >

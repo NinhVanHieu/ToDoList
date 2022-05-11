@@ -5,6 +5,7 @@ import { SEARCH_LIST } from "../contants/Contans";
 import { CHECK_LIST } from "../contants/Contans";
 import { REMOVE_CHECK_LIST } from "../contants/Contans";
 import { REMOVE_ALL } from "../contants/Contans";
+
 export const addList = (action) => {
   return {
     type: ADD_LIST,
@@ -32,13 +33,13 @@ export const searchList = (action) => {
 export const checkList = (action) => {
   return {
     type: CHECK_LIST,
-    payload:action,
+    payload: action,
   };
 };
 export const removeCheckList = (action) => {
   return {
     type: REMOVE_CHECK_LIST,
-    payload:action,
+    payload: action,
   };
 };
 export const removeAll = (action) => {

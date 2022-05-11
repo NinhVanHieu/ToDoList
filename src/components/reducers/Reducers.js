@@ -5,8 +5,10 @@ import { SEARCH_LIST } from "../contants/Contans";
 import { CHECK_LIST } from "../contants/Contans";
 import { REMOVE_CHECK_LIST } from "../contants/Contans";
 import { REMOVE_ALL } from "../contants/Contans";
+
+const dataInfo = JSON.parse(localStorage.getItem("infoData"));
 const initial = {
-  content: [],
+  content: dataInfo ?? [],
   search: "",
   check: [],
 };
@@ -23,6 +25,7 @@ export const reducerList = (state = initial, action) => {
           ...state.content.filter((item) => item.id !== action.payload),
         ],
       };
+      localStorage.setItem("infoData", JSON.stringify(state.content));
       return state;
     case EDIT_LIST:
       state = {
