@@ -8,7 +8,6 @@ import { listData } from "./selectors/Selectors";
 import { removeData } from "./selectors/Selectors";
 
 function App() {
-  const dataInfo = JSON.parse(localStorage.getItem("infoData"));
   const today = new Date().toISOString().slice(0, 10);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
@@ -23,7 +22,9 @@ function App() {
     due: today,
     prio: "Normal",
   });
-  const [info, setInfo] = useState(dataInfo ?? []);
+  const [info, setInfo] = useState(()=>{
+    return JSON.parse(localStorage.getItem("infoData")) ?? []
+  });
   const [search, setSearch] = useState();
   const handleAdd = () => {
     user.name &&

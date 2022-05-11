@@ -6,9 +6,8 @@ import { CHECK_LIST } from "../contants/Contans";
 import { REMOVE_CHECK_LIST } from "../contants/Contans";
 import { REMOVE_ALL } from "../contants/Contans";
 
-const dataInfo = JSON.parse(localStorage.getItem("infoData"));
 const initial = {
-  content: dataInfo ?? [],
+  content:  JSON.parse(localStorage.getItem("infoData")) ?? [],
   search: "",
   check: [],
 };
