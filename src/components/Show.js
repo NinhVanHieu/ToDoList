@@ -6,6 +6,7 @@ import { checkList } from "./actions/Action";
 import { removeCheckList } from "./actions/Action";
 
 function Show(props) {
+  const today = new Date().toISOString().slice(0, 10);
   const dispatch = useDispatch();
   const [show, setShow] = useState(false);
   const data = props.item;
@@ -33,7 +34,7 @@ function Show(props) {
     }
   };
   return (
-    <div style={{ border: "1px solid black", padding: "25px 10px 5px 10px" }}>
+    <div style={{ border: "1px solid black", padding: "20px 10px 0px 10px" }}>
       <div className="row" key={data.id}>
         <div className="col-2">
           <div className="form-group">
@@ -93,6 +94,7 @@ function Show(props) {
                   type="date"
                   className="form-control"
                   id="due"
+                  min={today}
                   value={user.due}
                   onChange={(e) => setUser({ ...user, due: e.target.value })}
                 />
@@ -117,7 +119,7 @@ function Show(props) {
             </div>
             <button
               type="submit"
-              style={{ marginLeft: "12px", marginRight: "12px" }}
+              style={{ marginLeft: "12px", marginRight: "12px", marginBottom:'20px' }}
               className="btn btn-success btn-block"
               onClick={handleUpdate}
             >

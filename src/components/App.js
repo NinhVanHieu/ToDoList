@@ -118,7 +118,7 @@ function App() {
                 </div>
               </div>
               <button
-                style={{ marginLeft: "12px", marginRight: "12px" }}
+                style={{ marginLeft: "12px", marginRight: "12px", marginBottom:'15px' }}
                 type="submit"
                 className="btn btn-success btn-block"
                 onClick={handleAdd}
