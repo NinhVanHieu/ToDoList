@@ -8,48 +8,55 @@ import { listData } from "./selectors/Selectors";
 import { removeData } from "./selectors/Selectors";
 
 function App() {
+  const today = new Date().toISOString().slice(0, 10);
   const [show, setShow] = useState(false);
   const dispatch = useDispatch();
   const data = useSelector(listData);
+  const data1 = data.sort(function (a, b) {
+    return new Date(a.user.due) - new Date(b.user.due);
+  });
   const remove = useSelector(removeData);
-  console.log(remove);
-  const [prio, setPrio] = useState("Low");
-  const [due, setDue] = useState();
-  const [name, setName] = useState();
-  const [des, setDes] = useState();
+  const [user, setUser] = useState({
+    name: "",
+    des: "",
+    due: today,
+    prio: "Normal",
+  });
   const [search, setSearch] = useState();
-
   const handleAdd = () => {
-    name &&
-      des &&
+    user.name &&
       dispatch(
         addList({
           id: uuidv4(),
-          name: name,
-          des: des,
-          due: due,
-          prio: prio,
+          user,
         })
       );
-
-    setName("");
-    setDes("");
-    setPrio("Low");
+    setShow(user.name === "" ? true : false);
+    setUser({
+      name: "",
+      des: "",
+      due: today,
+      prio: "Normal",
+    });
   };
   const handleSearch = (e) => {
-    setSearch(e.target.value);
-    console.log(e.target.value);
-    dispatch(searchList(e.target.value));
+    dispatch(searchList(e.target.value.trim()));
   };
-  console.log(search);
   const handleRemoveAll = () => {
     dispatch(removeAll(remove));
   };
   return (
     <div>
       <div className="container">
-        <div className="row" style={{ paddingTop: "30px" }}>
-          <div className="col-5">
+        <div className="row" style={{ border: "1px solid black" }}>
+          <div
+            className="col-5"
+            style={{
+              paddingTop: "30px",
+              paddingBottom: "10px",
+              borderRight: "1px solid black",
+            }}
+          >
             <h2 style={{ textAlign: "center", fontWeight: "bolder" }}>
               New Task
             </h2>
@@ -57,10 +64,16 @@ function App() {
               <input
                 type="text"
                 className="form-control"
+                aria-describedby="name"
                 placeholder="Add new task..."
-                value={name}
-                onChange={(e) => setName(e.target.value)}
+                value={user.name}
+                onChange={(e) => setUser({ ...user, name: e.target.value })}
               />
+              {show && user.name === "" && (
+                <small id="name" style={{ color: "red" }}>
+                  Please enter the name field
+                </small>
+              )}
             </div>
             <div className="form-group">
               <label htmlFor="description" style={{ fontWeight: "bold" }}>
@@ -69,8 +82,8 @@ function App() {
               <textarea
                 className="form-control"
                 rows={5}
-                value={des}
-                onChange={(e) => setDes(e.target.value)}
+                value={user.des}
+                onChange={(e) => setUser({ ...user, des: e.target.value })}
               />
             </div>
             <div className="row">
@@ -82,7 +95,9 @@ function App() {
                   <input
                     type="date"
                     className="form-control"
-                    onChange={(e) => setDue(e.target.value)}
+                    min={today}
+                    value={user.due}
+                    onChange={(e) => setUser({ ...user, due: e.target.value })}
                   />
                 </div>
               </div>
@@ -93,8 +108,8 @@ function App() {
                   </label>
                   <select
                     className="form-control"
-                    value={prio}
-                    onChange={(e) => setPrio(e.target.value)}
+                    value={user.prio}
+                    onChange={(e) => setUser({ ...user, prio: e.target.value })}
                   >
                     <option value="Normal">Normal</option>
                     <option value="Low">Low</option>
@@ -103,6 +118,7 @@ function App() {
                 </div>
               </div>
               <button
+                style={{ marginLeft: "12px", marginRight: "12px" }}
                 type="submit"
                 className="btn btn-success btn-block"
                 onClick={handleAdd}
@@ -111,9 +127,10 @@ function App() {
               </button>
             </div>
           </div>
-          {/* End Add */}
-
-          <div className="col-7">
+          <div
+            className="col-7"
+            style={{ paddingTop: "30px", paddingBottom: "10px" }}
+          >
             <h2 style={{ textAlign: "center", fontWeight: "bold" }}>
               To Do List
             </h2>
@@ -126,19 +143,30 @@ function App() {
                 onChange={handleSearch}
               />
             </div>
-            {data?.map((item) => {
+            {data1?.map((item) => {
               return (
-                <>
+                <div key={item.id}>
                   <Show item={item} />
-                </>
+                  <br />
+                </div>
               );
             })}
-
-            {/* End Show */}
-
+            <br /> <br />
             <br />
             {remove?.length > 0 && (
-              <div className="row">
+              <div
+                className="row"
+                style={{
+                  position: "absolute",
+                  bottom: "0px",
+                  right: "15px",
+                  width: "100%",
+                  background: "rgb(152, 152, 152)",
+                  height: "80px",
+                  paddingTop: "20px",
+                  marginTop: "20px",
+                }}
+              >
                 <div className="col-4">Bulk Action:</div>
                 <div className="col-4" />
                 <div className="col-2">
@@ -149,7 +177,7 @@ function App() {
                 <div className="col-2">
                   <button
                     type="button"
-                    className="btn btn-primary btn-block"
+                    className="btn btn-danger btn-block"
                     onClick={handleRemoveAll}
                   >
                     Remove

@@ -29,16 +29,16 @@ export const searchList = (action) => {
     payload: action,
   };
 };
-export const checkList = (checked,id) => {
+export const checkList = (action) => {
   return {
     type: CHECK_LIST,
-    payload: {checked,id},
+    payload:action,
   };
 };
-export const removeCheckList = (id) => {
+export const removeCheckList = (action) => {
   return {
     type: REMOVE_CHECK_LIST,
-    payload:id,
+    payload:action,
   };
 };
 export const removeAll = (action) => {

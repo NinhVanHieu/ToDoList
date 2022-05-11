@@ -36,44 +36,31 @@ export const reducerList = (state = initial, action) => {
       return state;
     case SEARCH_LIST:
       state = { ...state, search: action.payload };
-      // console.log(state.search);
-      // const newState = state.content.filter((item) => {
-      //       return item.name.includes(state.search);
-      //     })
-
-      // console.log(newState)
       return state;
     case CHECK_LIST:
       state = { ...state, check: [...state.check, action.payload] };
-      // console.log(newState);
-      // console.log(state.check);
-      // const checkState={...newState,check:[...newState.check.filter((item)=>{
-      //   console.log(item);
-      //   return item.checked ==='true'
-      // })]}
-      //console.log(newState);
-      console.log(state.check);
       return state;
     case REMOVE_CHECK_LIST:
       state = {
         ...state,
         check: [
           ...state.check.filter((item) => {
-            return item.id !== action.payload;
+            return item !== action.payload;
           }),
         ],
       };
-      console.log(state.check);
       return state;
     case REMOVE_ALL:
-      console.log(action.payload);
       const deleteData = action.payload;
       state = {
         ...state,
         content: [
-          ...state.content.filter((item) => deleteData.find(item.id))]
+          ...state.content.filter((item) => {
+            return !deleteData.includes(item.id);
+          }),
+        ],
+        check: [],
       };
-      console.log(state)
       return state;
     default:
       return state;

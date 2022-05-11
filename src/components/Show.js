@@ -4,19 +4,12 @@ import { deleteList } from "./actions/Action";
 import { editList } from "./actions/Action";
 import { checkList } from "./actions/Action";
 import { removeCheckList } from "./actions/Action";
-// import { searchData } from "./selectors/Selectors";
 
 function Show(props) {
   const dispatch = useDispatch();
-  const [check, setCheck] = useState([]);
   const [show, setShow] = useState(false);
-  //  const dataSearch=useSelector(searchData)
-  //  console.log(dataSearch);
-  // const data = useSelector((state) => state.list.content);
   const data = props.item;
-  console.log(data);
-  const [info, setInfo] = useState(data);
-  console.log(info);
+  const [user, setUser] = useState(data.user);
   const handleRemove = () => {
     dispatch(deleteList(data.id));
   };
@@ -28,33 +21,26 @@ function Show(props) {
     dispatch(
       editList({
         id: data.id,
-        name: info.name,
-        des: info.des,
-        due: info.due,
-        prio: info.prio,
+        user,
       })
     );
   };
   const handleCheck = (e) => {
-    console.log(e.target.checked);
-    if(e.target.checked){
-      dispatch(checkList(e.target.checked,data.id))
+    if (e.target.checked) {
+      dispatch(checkList(data.id));
+    } else {
+      dispatch(removeCheckList(data.id));
     }
-    else{
-      dispatch(removeCheckList(data.id))
-    }
-   
   };
-  console.log(check);
   return (
-    <>
+    <div style={{ border: "1px solid black", padding: "25px 10px 5px 10px" }}>
       <div className="row" key={data.id}>
         <div className="col-2">
           <div className="form-group">
             <input type="checkbox" onChange={handleCheck} />
           </div>
         </div>
-        <div className="col-6">{data.name} </div>
+        <div className="col-6">{data.user.name} </div>
         <div className="col-2">
           <button
             type="button"
@@ -74,7 +60,6 @@ function Show(props) {
           </button>
         </div>
       </div>
-
       <br />
       {show && (
         <div>
@@ -82,41 +67,47 @@ function Show(props) {
             <input
               type="text"
               className="form-control"
-              value={info.name}
-              onChange={(e) => setInfo({ ...info, name: e.target.value })}
+              value={user.name}
+              onChange={(e) => setUser({ ...user, name: e.target.value })}
             />
           </div>
           <div className="form-group">
-            <label htmlFor="description">Description</label>
+            <label htmlFor="description" style={{ fontWeight: "bold" }}>
+              Description
+            </label>
             <textarea
               className="form-control"
               id="description"
               rows={5}
-              value={info.des}
-              onChange={(e) => setInfo({ ...info, des: e.target.value })}
+              value={user.des}
+              onChange={(e) => setUser({ ...user, des: e.target.value })}
             />
           </div>
           <div className="row">
             <div className="col-6">
               <div className="form-group">
-                <label htmlFor="due">Due Date</label>
+                <label htmlFor="due" style={{ fontWeight: "bold" }}>
+                  Due Date
+                </label>
                 <input
                   type="date"
                   className="form-control"
                   id="due"
-                  value={info.due}
-                  onChange={(e) => setInfo({ ...info, due: e.target.value })}
+                  value={user.due}
+                  onChange={(e) => setUser({ ...user, due: e.target.value })}
                 />
               </div>
             </div>
             <div className="col-6">
               <div className="form-group">
-                <label htmlFor="prio">Priority</label>
+                <label htmlFor="prio" style={{ fontWeight: "bold" }}>
+                  Priority
+                </label>
                 <select
                   className="form-control"
                   id="prio"
-                  value={info.prio}
-                  onChange={(e) => setInfo({ ...info, prio: e.target.value })}
+                  value={user.prio}
+                  onChange={(e) => setUser({ ...user, prio: e.target.value })}
                 >
                   <option>Normal</option>
                   <option>Low</option>
@@ -126,8 +117,7 @@ function Show(props) {
             </div>
             <button
               type="submit"
-              name
-              id
+              style={{ marginLeft: "12px", marginRight: "12px" }}
               className="btn btn-success btn-block"
               onClick={handleUpdate}
             >
@@ -136,8 +126,7 @@ function Show(props) {
           </div>
         </div>
       )}
-      
-    </>
+    </div>
   );
 }
 
