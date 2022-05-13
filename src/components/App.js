@@ -119,9 +119,9 @@ function App() {
                     value={user.prio}
                     onChange={(e) => setUser({ ...user, prio: e.target.value })}
                   >
-                    <option value="Normal">Normal</option>
                     <option value="Low">Low</option>
-                    <option value="Height">Height</option>
+                    <option value="Normal">Normal</option>
+                    <option value="Height">High</option>
                   </select>
                 </div>
               </div>

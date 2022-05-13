@@ -111,9 +111,9 @@ function Show(props) {
                   value={user.prio}
                   onChange={(e) => setUser({ ...user, prio: e.target.value })}
                 >
-                  <option>Normal</option>
                   <option>Low</option>
-                  <option>Height</option>
+                  <option>Normal</option>
+                  <option>High</option>
                 </select>
               </div>
             </div>
